@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import {Search} from './components/Search'
+import { searchArt } from './api/utils'
 
 function App() {
+  const [query, setQuery] = useState('')
+  const [queryResults, setQueryResults] = useState([])
+
+  const handleSearchClick = () => {
+    searchArt(query)
+      .then(res => setQueryResults(res.objectIDs))
+  }
+
+  const getPage = (data, limit, offset) => {
+    const start = offset
+    const end = start + limit
+
+    return data.slice(start, end)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Search handleSearchClick={handleSearchClick} setQuery={setQuery}/>
+      {getPage(queryResults, 10, 0).map(key => <p key={key}>{key}</p>)}
     </div>
   );
 }
