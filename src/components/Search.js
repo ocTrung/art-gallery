@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-export const Search = ({ handleSearchClick, setQuery }) => {
-
-  const handleChange = (e) => {
-    setQuery(e.target.value)
-  }
-
+const Search = ({ handleSubmit }) => {
   return (
     <div>
-      <input type='text' id='search-field' onChange={handleChange}></input>
-      <button onClick={handleSearchClick}>Search</button>
+      <form onSubmit={ handleSubmit }>
+        <div>
+          <input type='text' id='searchInput' />
+          <label htmlFor='searchInput'></label>
+        </div>
+        <button type='submit'>Search</button>
+      </form>
     </div>
   )
 }
+
+export default Search

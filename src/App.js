@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import {Search} from './components/Search'
+import Search from './components/Search'
 import { searchArt } from './api/utils'
 
 function App() {
-  const [query, setQuery] = useState('')
   const [queryResults, setQueryResults] = useState([])
 
-  const handleSearchClick = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const query = e.target.elements.searchInput.value
     searchArt(query)
-      .then(res => setQueryResults(res.objectIDs))
+      .then(data => {
+        console.log(data)
+        setQueryResults(data.objectIDs)
+      })
   }
 
   const getPage = (data, limit, offset) => {
@@ -20,8 +24,9 @@ function App() {
 
   return (
     <div className="App">
-      <Search handleSearchClick={handleSearchClick} setQuery={setQuery}/>
-      {getPage(queryResults, 10, 0).map(key => <p key={key}>{key}</p>)}
+      <Search handleSubmit={ handleSubmit }/>
+      {getPage(queryResults, 10, 0).map(artId => <p key={artId}>{artId}</p>)}
+
     </div>
   );
 }
