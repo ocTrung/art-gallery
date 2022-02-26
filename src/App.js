@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { searchArt } from './api/utils'
 import Search from './components/Search'
 import Results from './components/Results'
-import { getArtworksInfo } from './api/utils'
+import { getManyArtworkInfo } from './api/utils'
 
 function App() {
   const [searchResults, setSearchResults] = useState([])
@@ -44,7 +44,7 @@ function App() {
 
     let newCurrArtsInfo = []
 
-    getArtworksInfo(newPageIDs)
+    getManyArtworkInfo(newPageIDs)
       .then(data => {
         console.log('art data retrieved')
         newCurrArtsInfo = data.map(artData => {
@@ -77,7 +77,7 @@ function App() {
   }
 
   return (
-    <div className="App" className=' bg-slate-400'>
+    <div className='App bg-slate-400'>
       <Search handleSubmit={ handleSearchSubmit }/>
       <Results currArtsInfo={ currArtsInfo } totalResults={ totalResults } />
       page num: { currPageNum + 1 }

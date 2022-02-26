@@ -8,22 +8,21 @@ export async function searchArt(searchQuery) {
     credentials: 'omit'
   });
 
-  return response.json(); // parses JSON response into native JavaScript objects
+  return response.json()
 }
 
-export async function getArtworksInfo(objectIDs) {
+export async function getManyArtworkInfo(objectIDs) {
   const url = `${BASEURL}/objects`
-
-  async function getSingleArtworkInfo(id) {
-      return fetch(url + '/' + id, {
-        method: 'GET',
-        credentials: 'omit'
-      })
-      .then(res => res.json())
-  }
-  
-  const promises = objectIDs.map(id => getSingleArtworkInfo(id))
+  const promises = objectIDs.map(id => getSingleArtworkInfo(url, id))
   const artWorkInfos = await Promise.all(promises)
 
   return artWorkInfos
+}
+
+export async function getSingleArtworkInfo(url, id) {
+  return fetch(url + '/' + id, {
+    method: 'GET',
+    credentials: 'omit'
+  })
+  .then(res => res.json())
 }
