@@ -5,10 +5,9 @@ const Search = ({ handleSubmit }) => {
     <div>
       <form onSubmit={ handleSubmit }>
         <div>
-          <input type='text' id='searchInput' />
+          <input type='text' id='searchInput' placeholder='search fart.' className='text-4xl dark:bg-neutral-600 focus:bg-neutral-500 outline-none w-screen mb-2' />
           <label htmlFor='searchInput'></label>
         </div>
-        <button type='submit'>Search</button>
       </form>
     </div>
   )

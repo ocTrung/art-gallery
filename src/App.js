@@ -3,6 +3,8 @@ import { searchArt } from './api/utils'
 import Search from './components/Search'
 import Results from './components/Results'
 import { getManyArtworkInfo } from './api/utils'
+import PageControls from './components/PageControls'
+import Title from './components/Title'
 
 function App() {
   const [searchResults, setSearchResults] = useState([])
@@ -10,6 +12,9 @@ function App() {
   const [currPageNum, setCurrPageNum] = useState(0)
   const [pageLimit, setPageLimit] = useState(10)
   const [totalResults, setTotalResults] = useState(0)
+  const [emptyReturn, setEmptyReturn] = useState(false)
+  const [showSearchBox, setShowSearchBox] = useState(false)
+
   
   const handleSearchSubmit = (e) => {
     e.preventDefault()
@@ -29,11 +34,19 @@ function App() {
   }
 
   const effect = () => {
-    console.log('useEffect ran')
-    console.log('currPage', typeof(currPageNum), currPageNum)
-    if (searchResults.length === 0) {
+    if (searchResults.total === 0) {
+      setEmptyReturn(true)
       return
     }
+    if (searchResults.total === undefined) {
+      return
+    }
+    
+    setEmptyReturn(false)
+    // console.log(searchResults)
+    // if (searchResults.length === 0) {
+    //   return
+    // }
     const { objectIDs, total } = searchResults
     const newPageIDs = getPage(objectIDs, pageLimit, currPageNum)
     setTotalResults(total)
@@ -63,28 +76,25 @@ function App() {
 
   useEffect(effect, [searchResults, pageLimit, currPageNum])
 
-  const handleNextBtnClick = (currPage, totalResults, pageLimit) => {
-    // console.log('currPage type:', typeof(currPage))
-    const maxPageForResults = Math.ceil(totalResults / pageLimit)
-    const nexPage = currPage + 1 > maxPageForResults ? maxPageForResults : currPage + 1
-    // console.log('nextPage', nexPage)
-    setCurrPageNum(nexPage)
+  const newSearchEffect = () => {
+    setCurrPageNum(0)
   }
 
-  const handlePrevBtnClick = (currPage) => {
-    const prevPage = currPage - 1 < 0 ? 0 : currPage - 1
-    setCurrPageNum(prevPage)
+  useEffect(newSearchEffect, [searchResults])
+
+  const handleShowSearchClick = () => {
+    setShowSearchBox(!showSearchBox)
   }
 
   return (
-    <div className='App bg-stone-300 dark:bg-stone-800 dark:text-slate-100'>
-      <Search handleSubmit={ handleSearchSubmit }/>
+    <div className='App'>
+      <Title handleShowSearchClick={ handleShowSearchClick } showSearchBox={ showSearchBox }/>
+      { showSearchBox && <Search handleSubmit={ handleSearchSubmit }/> }
+      { emptyReturn && 'no results' }
       <Results currArtsInfo={ currArtsInfo } totalResults={ totalResults } />
-      page num: { currPageNum + 1 }
-      <div>
-        <button onClick={ () => handlePrevBtnClick(currPageNum) }>Previous</button>
-        <button onClick={ () => handleNextBtnClick(currPageNum) }>Next</button>
-      </div>
+      { searchResults.total > 0 &&
+        <PageControls currPageNum={ currPageNum } searchResults={ searchResults } setCurrPageNum={ setCurrPageNum } /> 
+      }
     </div>
   );
 }

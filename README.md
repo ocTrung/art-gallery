@@ -4,6 +4,7 @@
   - figure out what details you want, maybe 3 details
 - Route to page when card is clicked, display more details
   - decide what further details we want
+- dont allow user to submit empty search
 
 # done
 - perform search when user presses 'enter' on keyboard -> convert search to use forms
