@@ -1,52 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { getArtworksInfo as getArtworksInfo } from '../api/utils'
 
-const Results = ({ queryResults }) => {
-  const { total, objectIDs } = queryResults
-  const [offset, setOffset] = useState(0)
-  const [pageLimit, setPageLimit] = useState(10)
-  const [currArtsInfo, setCurrArtsInfo] = useState([])
-
-  const getPage = (data, limit, offset) => {
-    const start = offset
-    const end = start + limit
-
-    return data.slice(start, end)
-  }
-
-  const effect = () => {
-    if (queryResults.length !== 0) {
-      const newPageIDs = getPage(objectIDs, pageLimit, offset)
-      // So we arent making too many requests
-      if (newPageIDs.length < 20) {
-        getArtworksInfo(newPageIDs)
-        .then(data => {
-          console.log(data)
-          const newCurrArtsInfo = data.map((artData => {
-            return {
-              objectID: artData.objectID,
-              creditLine: artData.creditLine,
-              smallImageURL: artData.primaryImageSmall,
-              imageURL: artData.primaryImage,
-              title: artData.title,
-              dimensions: artData.dimensions
-            }
-          }))
-          // console.log(pageImageURLs)
-          setCurrArtsInfo(newCurrArtsInfo)
-        })
-      }
-      
-    }
-  }
-
-  useEffect(effect, [queryResults])
-
+const Results = ({ currArtsInfo }) => {
   return (
-    <div>
-      {/* { pageImageURLs.map(imageURL => <p key={artId}>{artId}</p>) } */}
-      { currArtsInfo.map(artInfo => <img key={artInfo.objectID} src={artInfo.smallImageURL} alt={artInfo.title}></img>) }
-      total results: { total }
+    <div id='container' className='flex flex-row justify-end'>
+      <div className='md:masonry-2-col lg:masonry-3-col box-border mx-auto before:box-inherit after:box-inherit'>
+        { currArtsInfo.map(artInfo => <img className=' max-w-xs md:max-w-sm mb-4' key={artInfo.objectID} src={artInfo.smallImageURL} alt={artInfo.title}></img>) }
+      </div>
+      {/* total results: { total } */}
     </div>
   )
 }
