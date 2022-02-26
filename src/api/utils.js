@@ -20,9 +20,10 @@ export async function getManyArtworkInfo(objectIDs) {
 }
 
 export async function getSingleArtworkInfo(url, id) {
-  return fetch(url + '/' + id, {
+  const response = await fetch(url + '/' + id, {
     method: 'GET',
     credentials: 'omit'
   })
-  .then(res => res.json())
+
+  return response.json()
 }
