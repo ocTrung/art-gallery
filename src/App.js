@@ -77,7 +77,7 @@ function App() {
   }
 
   return (
-    <div className='App bg-slate-400'>
+    <div className='App bg-stone-300 dark:bg-stone-800 dark:text-slate-100'>
       <Search handleSubmit={ handleSearchSubmit }/>
       <Results currArtsInfo={ currArtsInfo } totalResults={ totalResults } />
       page num: { currPageNum + 1 }

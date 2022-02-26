@@ -5,7 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {
-      
+      spacing: {
+        '128': '32rem',
+        '192': '48rem'
+      }
     },
   },
   plugins: [],

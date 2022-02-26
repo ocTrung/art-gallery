@@ -3,7 +3,7 @@ import React from 'react'
 const Card = ({ artInfo, index }) => {
   const { title, smallImageURL } = artInfo
   return (
-    <div className='md:max-w-md md:min-w-min mb-4 bg-red-300'>
+    <div className=' w-80 m-2 bg-stone-200 dark:bg-stone-700 flex flex-col justify-between p-4 items-start'>
       <h1>{ title }</h1>
       <img src={ smallImageURL } alt={ title }></img>
       { index }
