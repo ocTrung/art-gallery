@@ -25,6 +25,5 @@ export async function getSingleArtworkInfo(id) {
     method: 'GET',
     credentials: 'omit'
   })
-  console.log(response)
   return response.json()
 }
