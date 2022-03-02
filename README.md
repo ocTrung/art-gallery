@@ -7,9 +7,11 @@
 - move api requests from useeffect to clickevent
 
 # Issues
+- focus on search field when user clicks the icon
 - dont allow user to submit empty search
 - reset view when user navigates to a new page
 - show more images per row on larger screens
+- click logo navigates to home 
 
 -----------------------------------------------------------------------------
 

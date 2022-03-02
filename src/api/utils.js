@@ -12,18 +12,19 @@ export async function searchArt(searchQuery) {
 }
 
 export async function getManyArtworkInfo(objectIDs) {
-  const url = `${BASEURL}/objects`
-  const promises = objectIDs.map(id => getSingleArtworkInfo(url, id))
+  const promises = objectIDs.map(id => getSingleArtworkInfo(id))
   const artWorkInfos = await Promise.all(promises)
 
   return artWorkInfos
 }
 
-export async function getSingleArtworkInfo(url, id) {
+export async function getSingleArtworkInfo(id) {
+  const url = `${BASEURL}/objects`
+
   const response = await fetch(url + '/' + id, {
     method: 'GET',
     credentials: 'omit'
   })
-
+  console.log(response)
   return response.json()
 }

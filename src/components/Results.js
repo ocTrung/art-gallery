@@ -3,12 +3,13 @@ import Card from './Card'
 import { getManyArtworkInfo } from '../api/utils'
 import { SearchContext } from './SearchContext'
 import { PageContext } from './PageContext'
+import PageControls from './PageControls'
+import { Link, Outlet } from 'react-router-dom'
 
 const Results = () => {
   const [searchResults, setSearchResults] = useContext(SearchContext)
-  const [currPageNum, setCurrPageNum] = useContext(PageContext)
+  const [currPageNum, setCurrPageNum, currArtsInfo, setCurrArtsInfo] = useContext(PageContext)
   const [pageLimit, setPageLimit] = useState(10)
-  const [currArtsInfo, setCurrArtsInfo] = useState([])
 
   let totalResults = searchResults === null ? null : searchResults.total
 
@@ -42,8 +43,8 @@ const Results = () => {
           return {
             objectID,
             creditLine,
-            smallImageURL: primaryImageSmall,
-            imageURL: primaryImage,
+            primaryImageSmall,
+            primaryImage,
             title,
             dimensions
           }
@@ -52,7 +53,7 @@ const Results = () => {
       .then((ArtsInfo) => setCurrArtsInfo(ArtsInfo))
   }
 
-  useEffect(effect, [searchResults, pageLimit, currPageNum])
+  useEffect(effect, [searchResults, pageLimit, currPageNum, setCurrArtsInfo])
   
   const newSearchEffect = () => {
     setCurrPageNum(0)
@@ -64,12 +65,20 @@ const Results = () => {
     return <p className='text-red-400'>No Results</p>
   } else {
     return (
-      <div id='resultsContainer' className='flex flex-col'>
-        { currArtsInfo.length !== 0 && <p className='text-stone-400 text-sm'>{ totalResults } results</p> }
-        
-        <div id='imagesContainer' className='flex flex-row flex-wrap'>
-          { currArtsInfo.map((artInfo, index) => <Card key={ artInfo.objectID } artInfo={ artInfo } index={ index }/>) }
+      <div>
+        <Outlet />
+        <div id='resultsContainer' className='flex flex-col'>
+          { currArtsInfo.length !== 0 && <p className='text-stone-400 text-sm'>{ totalResults } results</p> }
+          
+          <div id='imagesContainer' className='flex flex-row flex-wrap'>
+            { currArtsInfo.map((artInfo, index) => (
+              <Link to={`/${artInfo.objectID}`} key={ artInfo.objectID } >
+                <Card artInfo={ artInfo } index={ index }/>
+              </Link>
+            )) }
+          </div>
         </div>
+        <PageControls />
       </div>
     )
   }

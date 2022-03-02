@@ -1,9 +1,11 @@
 import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { searchArt } from '../api/utils'
 import { SearchContext } from './SearchContext'
 
 const Search = () => {
   const [searchResults, setSearchResults] = useContext(SearchContext)
+  let navigate = useNavigate()
 
   const handleSearchSubmit = (e) => {
     e.preventDefault()
@@ -12,6 +14,7 @@ const Search = () => {
       .then(data => {
         console.log('search results received')
         setSearchResults(data)
+        navigate('/results')
       })
   }
 
