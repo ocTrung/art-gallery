@@ -70,7 +70,7 @@ const Results = () => {
         <div id='resultsContainer' className='flex flex-col'>
           { currArtsInfo.length !== 0 && <p className='text-stone-400 text-sm'>{ totalResults } results</p> }
           
-          <div id='imagesContainer' className='flex flex-row flex-wrap'>
+          <div id='imagesContainer' className='flex flex-row flex-wrap justify-center'>
             { currArtsInfo.map((artInfo, index) => (
               <Link to={`/${artInfo.objectID}`} key={ artInfo.objectID } >
                 <Card artInfo={ artInfo } index={ index }/>

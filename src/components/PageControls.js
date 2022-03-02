@@ -24,8 +24,8 @@ const PageControls = () => {
       <div className='mb-4'>
         {/* <p className='mx-2 text-stone-400'>page { currPageNum + 1 }</p> */}
         <div>
-          <button className='mx-1 text-orange-300 text-lg' onClick={ () => handlePrevBtnClick(currPageNum) }>Previous</button>
-          <button className='mx-1 text-orange-300 text-lg' onClick={ () => handleNextBtnClick(currPageNum) }>Next</button>
+          <button className='mx-1 text-orange-400 text-lg' onClick={ () => handlePrevBtnClick(currPageNum) }>Previous</button>
+          <button className='mx-1 text-orange-400 text-lg' onClick={ () => handleNextBtnClick(currPageNum) }>Next</button>
         </div>
       </div>
     )

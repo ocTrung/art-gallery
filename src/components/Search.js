@@ -21,8 +21,8 @@ const Search = () => {
   return (
     <div>
       <form onSubmit={ handleSearchSubmit }>
-        <div>
-          <input type='text' id='searchInput' placeholder='search art.' className='text-4xl dark:bg-neutral-600 focus:bg-neutral-500 outline-none w-screen mb-2' />
+        <div className='dark:bg-neutral-900'>
+          <input autoFocus type='text' id='searchInput' placeholder='search art...' className='ml-20 text-4xl text dark:bg-neutral-800 focus:bg-neutral-700 text-orange-400 outline-none w-2/3 lg:w-128  mb-2 rounded-lg' />
           <label htmlFor='searchInput'></label>
         </div>
       </form>
