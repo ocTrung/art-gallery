@@ -16,7 +16,8 @@ const PageControls = () => {
     const prevPage = currPage - 1 < 0 ? 0 : currPage - 1
     setCurrPageNum(prevPage)
   }
-  if (searchResults === null || searchResults.length === 0) {
+  
+  if (searchResults === null || searchResults.total === 0) {
     return null
   } else {
     return (

@@ -7,11 +7,10 @@ import { PageContext } from './PageContext'
 const Results = () => {
   const [searchResults, setSearchResults] = useContext(SearchContext)
   const [currPageNum, setCurrPageNum] = useContext(PageContext)
-  const [emptyReturn, setEmptyReturn] = useState(false)
   const [pageLimit, setPageLimit] = useState(10)
-  const [totalResults, setTotalResults] = useState(0)
   const [currArtsInfo, setCurrArtsInfo] = useState([])
-  
+
+  let totalResults = searchResults === null ? null : searchResults.total
 
   const getPage = (data, pageLimit, currPage) => {
     const start = currPage * pageLimit
@@ -25,36 +24,32 @@ const Results = () => {
       return 
     }
     if (searchResults.total === 0) {
-      setEmptyReturn(true)
       return
     } 
     
-    setEmptyReturn(false)
-    const { objectIDs, total } = searchResults
+    const { objectIDs } = searchResults
     const newPageIDs = getPage(objectIDs, pageLimit, currPageNum)
-    setTotalResults(total)
 
-    if (newPageIDs.length > 20) {
+    // limits amount of API calls to 10
+    if (newPageIDs.length > 10) {
       return 
     }
-
-    let newCurrArtsInfo = []
 
     getManyArtworkInfo(newPageIDs)
       .then(data => {
         console.log('art data retrieved')
-        newCurrArtsInfo = data.map(artData => {
+        return data.map(({objectID, creditLine, primaryImageSmall, primaryImage, title, dimensions}) => {
           return {
-            objectID: artData.objectID,
-            creditLine: artData.creditLine,
-            smallImageURL: artData.primaryImageSmall,
-            imageURL: artData.primaryImage,
-            title: artData.title,
-            dimensions: artData.dimensions
+            objectID,
+            creditLine,
+            smallImageURL: primaryImageSmall,
+            imageURL: primaryImage,
+            title,
+            dimensions
           }
         })
-        setCurrArtsInfo(newCurrArtsInfo)
       })
+      .then((ArtsInfo) => setCurrArtsInfo(ArtsInfo))
   }
 
   useEffect(effect, [searchResults, pageLimit, currPageNum])
@@ -65,8 +60,8 @@ const Results = () => {
 
   useEffect(newSearchEffect, [searchResults])
 
-  if (emptyReturn) {
-    return <p>No Results</p>
+  if (totalResults === 0) {
+    return <p className='text-red-400'>No Results</p>
   } else {
     return (
       <div id='resultsContainer' className='flex flex-col'>
